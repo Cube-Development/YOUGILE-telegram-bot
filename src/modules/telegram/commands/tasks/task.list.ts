@@ -82,7 +82,7 @@ export const setupTaskListCommand = (bot: Telegraf) => {
 						const username = YOUGILE_TO_TG[id];
 						return username ? `@${username}` : id;
 					})
-					.join(", ");
+					.join(" ");
 
 				const createdByUsername = task.createdBy
 					? YOUGILE_TO_TG[task.createdBy]

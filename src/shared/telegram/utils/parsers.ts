@@ -21,7 +21,7 @@ export function parseReplyTaskFields(text: string): ReplyTaskFields | null {
 		taskId: taskIdMatch[1],
 		title: titleMatch ? titleMatch[1].trim() : "Без названия",
 		description: descMatch ? descMatch[1].trim() : "",
-		assigned: assignedMatch ? assignedMatch[1].trim() : "",
+		assigned: assignedMatch ? assignedMatch[1].trim().replace(/,/g, "").replace(/\s+/g, " ") : "",
 		messageLink: linkMatch ? linkMatch[0] : ""
 	};
 }
@@ -87,7 +87,7 @@ export function parseCommandFields(
 		} else if (lower.startsWith("description:")) {
 			description = line.slice("description:".length).trim();
 		} else if (lower.startsWith("assigned:")) {
-			const raw = line.slice("assigned:".length).trim();
+			const raw = line.slice("assigned:".length).replace(/,/g, " ").trim();
 			assigned = raw
 				.split(/\s+/)
 				.map((u) => u.replace(/^@/, "").trim())
