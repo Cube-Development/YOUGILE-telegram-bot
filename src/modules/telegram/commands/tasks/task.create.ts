@@ -6,6 +6,7 @@ import {
 	buildMessageLink,
 	extractApiError,
 	formatSuccessMessage,
+	formatTimestamp,
 	parseCommandFields,
 	resolveColumn,
 	resolveUserToYougileId
@@ -86,7 +87,9 @@ export const setupTaskCreateCommand = (bot: Telegraf) => {
 					assigned: parsed.assigned
 						? parsed.assigned.map((u) => `@${u}`).join(" ")
 						: undefined,
-					messageLink
+					messageLink,
+					createdAt: formatTimestamp(Date.now()),
+					createdBy: username ? `@${username}` : undefined
 				}),
 				{ parse_mode: "HTML" }
 			);

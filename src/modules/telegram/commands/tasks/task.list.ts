@@ -7,6 +7,7 @@ import {
 	escapeHTML,
 	extractApiError,
 	formatTaskCard,
+	formatTimestamp,
 	parseTaskListMessage,
 	resolveColumn,
 	resolveUserToYougileId
@@ -83,12 +84,20 @@ export const setupTaskListCommand = (bot: Telegraf) => {
 					})
 					.join(", ");
 
+				const createdByUsername = task.createdBy
+					? YOUGILE_TO_TG[task.createdBy]
+					: undefined;
+
 				const msg = formatTaskCard(i + 1, {
 					taskId: task.id,
 					title: task.title,
 					description: task.description,
 					assigned: assigned || undefined,
-					column: column.title
+					column: column.title,
+					createdAt: formatTimestamp(task.timestamp),
+					createdBy: createdByUsername
+						? `@${createdByUsername}`
+						: task.createdBy || undefined
 				});
 
 				await new Promise((resolve) => setTimeout(resolve, 100));

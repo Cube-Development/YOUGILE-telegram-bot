@@ -18,6 +18,7 @@ export {
 export {
 	formatSuccessMessage,
 	formatTaskCard,
+	formatTimestamp,
 	extractApiError
 } from "./templates";
 export type { TaskMessageFields } from "./templates";

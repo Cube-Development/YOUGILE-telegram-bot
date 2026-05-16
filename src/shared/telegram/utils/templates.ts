@@ -1,5 +1,20 @@
 import { escapeHTML } from "./html";
 
+/** Смещение UTC+5 в миллисекундах */
+const UTC_OFFSET_MS = 5 * 60 * 60 * 1000;
+
+/** Конвертирует UNIX-timestamp (мс) в строку даты UTC+5 */
+export function formatTimestamp(ts: number): string {
+	const date = new Date(ts + UTC_OFFSET_MS);
+	const pad = (n: number) => String(n).padStart(2, "0");
+	const y = date.getUTCFullYear();
+	const m = pad(date.getUTCMonth() + 1);
+	const d = pad(date.getUTCDate());
+	const hh = pad(date.getUTCHours());
+	const mm = pad(date.getUTCMinutes());
+	return `${d}.${m}.${y} ${hh}:${mm} (UTC+5)`;
+}
+
 export interface TaskMessageFields {
 	taskId: string;
 	title: string;
@@ -7,6 +22,8 @@ export interface TaskMessageFields {
 	assigned?: string;
 	column?: string;
 	messageLink?: string;
+	createdAt?: string;
+	createdBy?: string;
 }
 
 type ActionLabel = "Create" | "Delete" | "Edit" | "Move";
@@ -32,6 +49,14 @@ export function formatSuccessMessage(
 
 	if (fields.assigned) {
 		lines.push(`<b>assigned:</b> ${escapeHTML(fields.assigned)}`);
+	}
+
+	if (fields.createdAt) {
+		lines.push(`<b>created:</b> ${escapeHTML(fields.createdAt)}`);
+	}
+
+	if (fields.createdBy) {
+		lines.push(`<b>created_by:</b> ${escapeHTML(fields.createdBy)}`);
 	}
 
 	if (fields.messageLink) {
@@ -66,6 +91,14 @@ export function formatTaskCard(
 
 	if (fields.assigned) {
 		lines.push(`<b>assigned:</b> ${escapeHTML(fields.assigned)}`);
+	}
+
+	if (fields.createdAt) {
+		lines.push(`<b>created:</b> ${escapeHTML(fields.createdAt)}`);
+	}
+
+	if (fields.createdBy) {
+		lines.push(`<b>created_by:</b> ${escapeHTML(fields.createdBy)}`);
 	}
 
 	return lines.join("\n");

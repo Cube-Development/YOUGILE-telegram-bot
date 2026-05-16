@@ -5,6 +5,7 @@ import { log } from "@/shared/logger";
 import {
 	extractApiError,
 	formatSuccessMessage,
+	formatTimestamp,
 	parseCommandFields,
 	parseReplyTaskFields,
 	resolveColumn,
@@ -99,7 +100,9 @@ export const setupTaskEditCommand = (bot: Telegraf) => {
 							? parsed.description
 							: oldFields.description) || undefined,
 					assigned: resolvedAssigned || undefined,
-					messageLink: oldFields.messageLink || undefined
+					messageLink: oldFields.messageLink || undefined,
+					createdAt: formatTimestamp(Date.now()),
+					createdBy: username ? `@${username}` : undefined
 				}),
 				{ parse_mode: "HTML" }
 			);
