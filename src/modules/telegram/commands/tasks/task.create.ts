@@ -3,7 +3,6 @@ import { Telegraf } from "telegraf";
 import { type CreateTaskDto, ZADACHI_PATHS } from "@/shared/api";
 import { log } from "@/shared/logger";
 import {
-	buildMessageLink,
 	extractApiError,
 	formatSuccessMessage,
 	formatTimestamp,
@@ -42,31 +41,21 @@ export const setupTaskCreateCommand = (bot: Telegraf) => {
 		const column = await resolveColumn(ctx, ctx.chat.id, parsed.columnName);
 		if (!column) return;
 
-		const messageLink = buildMessageLink(
-			ctx.chat.id,
-			ctx.message.message_id
-		);
+		const body: CreateTaskDto = {
+			title: parsed.title,
+			columnId: column.id,
+			...(parsed.description ? { description: parsed.description } : {})
+		};
 
-		const descriptionWithLink = parsed.description
-			? `${parsed.description}\n\n${messageLink}`
-			: messageLink;
-
-		let assignedIds: string[] | undefined;
 		if (parsed.assigned && parsed.assigned.length > 0) {
-			assignedIds = [];
+			const assignedIds: string[] = [];
 			for (const username of parsed.assigned) {
 				const yougileId = await resolveUserToYougileId(ctx, username);
 				if (!yougileId) return;
 				assignedIds.push(yougileId);
 			}
+			body.assigned = assignedIds;
 		}
-
-		const body: CreateTaskDto = {
-			title: parsed.title,
-			columnId: column.id,
-			description: descriptionWithLink,
-			...(assignedIds ? { assigned: assignedIds } : {})
-		};
 
 		try {
 			const response = await yougileApi.post(
@@ -87,7 +76,6 @@ export const setupTaskCreateCommand = (bot: Telegraf) => {
 					assigned: parsed.assigned
 						? parsed.assigned.map((u) => `@${u}`).join(" ")
 						: undefined,
-					messageLink,
 					createdAt: formatTimestamp(Date.now()),
 					createdBy: username ? `@${username}` : undefined
 				}),

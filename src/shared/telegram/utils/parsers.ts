@@ -4,7 +4,6 @@ export interface ReplyTaskFields {
 	title: string;
 	description: string;
 	assigned: string;
-	messageLink: string;
 }
 
 /** Извлекает поля задачи из текста reply-сообщения */
@@ -15,22 +14,14 @@ export function parseReplyTaskFields(text: string): ReplyTaskFields | null {
 	const titleMatch = text.match(/title:\s+(.+)/);
 	const descMatch = text.match(/description:\s+(.+)/);
 	const assignedMatch = text.match(/assigned:\s+(.+)/);
-	const linkMatch = text.match(/https:\/\/t\.me\/c\/\d+\/\d+/);
-
 	return {
 		taskId: taskIdMatch[1],
 		title: titleMatch ? titleMatch[1].trim() : "Без названия",
 		description: descMatch ? descMatch[1].trim() : "",
-		assigned: assignedMatch ? assignedMatch[1].trim().replace(/,/g, "").replace(/\s+/g, " ") : "",
-		messageLink: linkMatch ? linkMatch[0] : ""
+		assigned: assignedMatch ? assignedMatch[1].trim().replace(/,/g, "").replace(/\s+/g, " ") : ""
 	};
 }
 
-/** Генерирует ссылку на Telegram-сообщение */
-export function buildMessageLink(chatId: number, messageId: number): string {
-	const rawChatId = String(chatId).replace(/^-100/, "");
-	return `https://t.me/c/${rawChatId}/${messageId}`;
-}
 
 /** Поля, извлечённые из текста команды (все опциональные) */
 export interface ParsedCommandFields {

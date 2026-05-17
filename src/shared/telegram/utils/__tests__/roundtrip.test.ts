@@ -50,14 +50,12 @@ describe("roundtrip: formatSuccessMessage → parseReplyTaskFields", () => {
 			taskId: "11aa22bb-cc33-dd44-ee55-ff6677889900",
 			title: "New task",
 			description: "Some desc",
-			assigned: "@user",
-			messageLink: "https://t.me/c/123456/789"
+			assigned: "@user"
 		});
 
 		const parsed = parseReplyTaskFields(stripHTML(msg));
 		expect(parsed).not.toBeNull();
 		expect(parsed!.taskId).toBe("11aa22bb-cc33-dd44-ee55-ff6677889900");
-		expect(parsed!.messageLink).toBe("https://t.me/c/123456/789");
 	});
 
 	it("success-сообщение move с column парсится", () => {

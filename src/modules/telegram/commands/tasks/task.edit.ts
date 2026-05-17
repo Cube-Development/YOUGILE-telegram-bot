@@ -100,7 +100,6 @@ export const setupTaskEditCommand = (bot: Telegraf) => {
 							? parsed.description
 							: oldFields.description) || undefined,
 					assigned: resolvedAssigned || undefined,
-					messageLink: oldFields.messageLink || undefined,
 					createdAt: formatTimestamp(Date.now()),
 					createdBy: username ? `@${username}` : undefined
 				}),

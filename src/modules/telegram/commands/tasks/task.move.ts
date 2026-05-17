@@ -67,7 +67,6 @@ export const setupTaskMoveCommand = (bot: Telegraf) => {
 					description: fields.description || undefined,
 					assigned: fields.assigned || undefined,
 					column: column.title,
-					messageLink: fields.messageLink || undefined,
 					createdAt: formatTimestamp(Date.now()),
 					createdBy: username ? `@${username}` : undefined
 				}),

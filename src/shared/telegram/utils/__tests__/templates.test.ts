@@ -25,15 +25,13 @@ describe("formatSuccessMessage", () => {
 			title: "Title",
 			description: "Desc",
 			assigned: "@user",
-			column: "Backlog",
-			messageLink: "https://t.me/c/123/456"
+			column: "Backlog"
 		});
 
 		expect(msg).toContain("Edit Success");
 		expect(msg).toContain("<b>column:</b> <code>Backlog</code>");
 		expect(msg).toContain("<b>description:</b> Desc");
 		expect(msg).toContain("<b>assigned:</b> @user");
-		expect(msg).toContain("https://t.me/c/123/456");
 	});
 
 	it("экранирует HTML в полях", () => {
@@ -58,15 +56,7 @@ describe("formatSuccessMessage", () => {
 		expect(colIdx).toBeLessThan(taskIdx);
 	});
 
-	it("messageLink отделён пустой строкой", () => {
-		const msg = formatSuccessMessage("Create", {
-			taskId: "id",
-			title: "T",
-			messageLink: "https://t.me/c/1/2"
-		});
 
-		expect(msg).toContain("\n\nhttps://t.me/c/1/2");
-	});
 });
 
 // ─── formatTaskCard ───

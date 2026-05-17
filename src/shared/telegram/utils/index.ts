@@ -1,7 +1,6 @@
 export { escapeHTML } from "./html";
 export {
 	parseReplyTaskFields,
-	buildMessageLink,
 	parseCommandFields,
 	parseTaskListMessage
 } from "./parsers";

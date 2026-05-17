@@ -51,7 +51,6 @@ export const setupTaskDeleteCommand = (bot: Telegraf) => {
 					title: fields.title,
 					description: fields.description || undefined,
 					assigned: fields.assigned || undefined,
-					messageLink: fields.messageLink || undefined,
 					createdAt: formatTimestamp(Date.now()),
 					createdBy: username ? `@${username}` : undefined
 				}),

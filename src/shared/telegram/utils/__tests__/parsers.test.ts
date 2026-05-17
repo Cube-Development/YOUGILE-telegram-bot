@@ -1,5 +1,4 @@
 import {
-	buildMessageLink,
 	parseCommandFields,
 	parseReplyTaskFields,
 	parseTaskListMessage
@@ -15,9 +14,7 @@ describe("parseReplyTaskFields", () => {
 		"task_id: 11aa22bb-cc33-dd44-ee55-ff6677889900",
 		"title: Fix login bug",
 		"description: Users can't sign in",
-		"assigned: @codesleeprepeat",
-		"",
-		"https://t.me/c/123456/789"
+		"assigned: @codesleeprepeat"
 	].join("\n");
 
 	it("извлекает все поля из полного сообщения task_list", () => {
@@ -26,8 +23,7 @@ describe("parseReplyTaskFields", () => {
 			taskId: "11aa22bb-cc33-dd44-ee55-ff6677889900",
 			title: "Fix login bug",
 			description: "Users can't sign in",
-			assigned: "@codesleeprepeat",
-			messageLink: "https://t.me/c/123456/789"
+			assigned: "@codesleeprepeat"
 		});
 	});
 
@@ -38,8 +34,7 @@ describe("parseReplyTaskFields", () => {
 			taskId: "aabb0011-2233-4455-6677-8899aabbccdd",
 			title: "Без названия",
 			description: "",
-			assigned: "",
-			messageLink: ""
+			assigned: ""
 		});
 	});
 
@@ -49,19 +44,6 @@ describe("parseReplyTaskFields", () => {
 	});
 });
 
-// ─── buildMessageLink ───
-
-describe("buildMessageLink", () => {
-	it("убирает -100 префикс из chatId", () => {
-		expect(buildMessageLink(-1001234567890, 42)).toBe(
-			"https://t.me/c/1234567890/42"
-		);
-	});
-
-	it("работает с положительным chatId", () => {
-		expect(buildMessageLink(999, 1)).toBe("https://t.me/c/999/1");
-	});
-});
 
 // ─── parseCommandFields ───
 

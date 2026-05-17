@@ -21,7 +21,6 @@ export interface TaskMessageFields {
 	description?: string;
 	assigned?: string;
 	column?: string;
-	messageLink?: string;
 	createdAt?: string;
 	createdBy?: string;
 }
@@ -57,11 +56,6 @@ export function formatSuccessMessage(
 
 	if (fields.createdBy) {
 		lines.push(`<b>created_by:</b> ${escapeHTML(fields.createdBy)}`);
-	}
-
-	if (fields.messageLink) {
-		lines.push("");
-		lines.push(fields.messageLink);
 	}
 
 	return lines.join("\n");
